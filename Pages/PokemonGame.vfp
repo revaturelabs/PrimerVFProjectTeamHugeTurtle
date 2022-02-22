@@ -1,0 +1,264 @@
+<apex:page controller="PokemonGameController" lightningStylesheets="true" docType="html-5.0" >
+  <!-- Revature Primer Project1 by Team:Huge Turtle Author:Ashley Sarah Bee paired with Raymond Fajardo-->
+    <h1 style="color:red;text-align:center;font-size:35">MY POKEMON BATTLE</h1>
+    <apex:form styleClass="slds-scope">
+        <apex:pageBlock >       
+	
+            <style type="text/CSS">
+           
+            .container{ 
+              display:flex; 
+              justify-content:center; 
+              align-items:stretch;} 
+             .item{ 
+              flex-basis:auto;
+              align-text:center;
+               } 
+             .margin{ 
+                width:3in;
+                padding:0.2in;
+                }
+                p { font-size:18 pt}
+                .bPageBlock .pbTitle {
+                 width: 100%;    
+                 text-align: center;
+                  }
+            </style>
+            
+            <apex:actionFunction action="{!addselection}" name="callApex"/>
+            
+                
+           
+            <apex:repeat value="{!pokePics}" var="pPics" > 
+               
+                   
+            <apex:image id="theImage" value="{!pPics.Pokemon_Image_URL__c}" title="{!pPics.Name}" width="50" height="50" alt="{!pPics.Name}" />      
+                <apex:actionSupport event="onclick" action="{!addSelection}"/>
+            <apex:outputText value="{!pPics.Name}"></apex:outputText>
+                <apex:param value="{!pPics.Name}" assignTo="{!picNew}"/>
+                
+            </apex:repeat>
+                 
+                       
+            <apex:pageBlock >
+            <div align="center" draggable="false">
+            <apex:commandButton value="Add More Pokemon" action="{!goAddPokemon}"  style="background-color:green;color:yellow"/>
+                        
+                </div>
+           </apex:pageBlock>
+        </apex:pageBlock>      
+        
+        <div align="center" draggable="false">
+            <apex:pageblock > 
+                <h2>
+                 My Selected Pokemon Army   
+                </h2> <br/>
+        <apex:pageMessages id="message"/>
+       Name your Selected Pokemon Army
+        <apex:input id="MyArmyName" value="{!selected}" type="text"/>
+        <br/><br/><br/>
+           <apex:outputPanel id="select"  >  
+      <apex:selectList value="{!selectedArmy}" multiselect="true" size="6">Pick exactly 6 Pokemon Soldiers:
+          
+          <apex:selectOptions value="{!selectArmyList}"/>
+           
+           <apex:commandButton value="Submit" action="{!createMyArmy}" rerender="renderPageBlock1, message" style="background-color:green;color:yellow"/>
+        <br/><br/>
+          </apex:selectList>
+        </apex:outputPanel> 
+        
+        <br/><br/><br/>
+       <apex:outputpanel >
+         <apex:selectList value="{!selectedA}" multiselect="false" size="1">Or Pick a Pre-Built Army
+             <apex:selectOptions value="{!selectAnSList}"/> 
+           <apex:commandButton value="Submit" action="{!createMyArmy}" rerender="renderPageBlock1,message" style="background-color:green; color:yellow" />
+            
+        </apex:selectList> <br/><br/>
+           
+           </apex:outputpanel>
+        <apex:outputPanel >
+        <apex:commandButton value="Start Over" action="{!clearInputs}" style="background-color:green; color:yellow" />
+      </apex:outputPanel>
+      
+            </apex:pageblock>
+                            
+            </div>
+        <div align="center" draggable="false" style="font-size:18">
+    <apex:pageblock >
+        <h2>
+            My Random Pokemon Ene-my Army
+        </h2>
+        <apex:pageMessages id="message"/>
+         Name your Randomly Generated Opponent Army
+             <apex:input id="OpponentName" value="{!random}" type="text"/>
+            <apex:commandButton action="{!randomOpponent}" value="Submit" rerender="renderPageBlock2" style="background-color:green; color:yellow"/>
+           <br/><br/>
+            
+            <apex:pageBlock >
+                 <div align="center" draggable="false" style="font-size:18">
+                <apex:commandButton value="Start Over" action="{!clearChoices}" style="background-color:green; color:yellow" />
+                </div>
+            </apex:pageBlock> 
+        
+        </apex:pageblock><br/><br/>
+            
+            <apex:pageblock rendered="displayStatsB">
+                <div align="center" draggable="false">
+                OR           
+                </div>
+            </apex:pageblock><br/><br/>
+            
+            <apex:pageblock title="My External Pokemon Ene-my Army"  rendered="displayStatsB">
+        <apex:pageMessages />
+                <apex:selectList value="{!selectedB}" multiselect="false" size="1">
+                    Pick an External Pre-Built Army
+             <apex:selectOptions value="{!selectAnSListExternal}"/> 
+           <apex:commandButton value="Submit" action="{!showMyArmy}" rerender="renderPageBlock2, message" style="background-color:green; color:yellow" />
+            
+        </apex:selectList> <br/><br/>
+                   
+            </apex:pageblock> 
+        <apex:pageBlock >
+            
+        <div align="center" draggable="false">
+                   <h1>  YOUR POKEMON BATTLE OF TYPES</h1>
+            </div>
+        </apex:pageBlock>
+                 
+                 
+                 
+        
+      <apex:pageBlock >
+            
+              <div class="container">
+                 
+              <div class="item">
+                  <div class="margin">                   
+                 
+                  
+                  
+              
+              Here's some tips to get you started. You can name your Pokemon Army and select them from the multi-select dropdown, exactly 6 of them in an anrmy. Want a Pokemon you do not see?
+              Click on ADD MORE POKEMON BUTTON and add them to the database It will appear on the Pokedex and the multi-Select to add to your Army
+              Hit submit to see a panel consisting of your Pokemon Soldiers their sequence in Battle and types.Change your mind about your Selection. Hit Start Over and purge it.
+              Want to use a team you played as or with before then just select from the Pick an Army dropdown       
+                  </div>
+                  </div>
+                  <div class="item">
+                      <div class="margin">
+              Once you have your Army now its time to get your Opponent Army. Right now you can name your Opposing Army and  hit Submit to get a computer-generated
+              opposing Army of 6 Pokemon Soldiers. Don't Like the Army, just hit Start Over to purge it and name another computer generated Army to play against.
+              Soon we intend to add Online teams to play against but not yet. Once you hit submit your Randomly Generated Opponent Army will appear in a face off Panel
+                   </div>
+                  </div>
+                  
+                  <div class="item">
+                      <div class="margin">
+                          
+                      
+              When you hit the Battle Button the Game pitches the Soldier Nos 1 and compares their types to deactivate the pokemon with the weaker Types.If your soldier wins then it 
+              goes on to battle with the next opponent soldier. If ypur soldier gets deactivated then your next soldier battles with the winning opponent soldier and so on and so forth.           
+              It goes through all the Pokemon Soldiers in each Army until all the Pokemon in one Army get deactivated. The Army with Pokemon Soldiers left wins. You can hit the 'GetBattle Statistics'
+              button to see how it went.            
+              BATTLE ON...
+                          </div>
+                   </div>
+                  </div> 
+
+            
+        </apex:pageBlock>
+            
+                        
+        
+         <apex:panelGrid columns="10" id="theGridB">
+        <apex:panelGrid columns="5" id="theGrid3">
+            <apex:pageBlock id="renderPageBlock1">
+        <apex:pageBlockSection title="{!If ((selected != null),selected,If(selectedA!='Pick an Army',selectedA,null))}">
+            
+         <apex:pageBlockTable value="{!MySoldier}" var="item">
+             <apex:column value="{!item.Pokemon__r.Name}"/>
+             <apex:column value="{!item.Pokemon__r.Pokemon_Type1__c}"/> 
+             <apex:column value="{!item.Pokemon__r.Pokemon_Type2__c}"/> 
+             <apex:column value="{!item.Pokemon__r.Pokemon_Image__c}"/>
+             <apex:column dir="RTL" value="{!item.My_Poke_Soldier_No__c}"/>
+         </apex:pageBlockTable>     
+        </apex:pageBlockSection>
+        </apex:pageBlock>
+       </apex:panelGrid>       
+        <apex:panelGrid columns="5" id="theGrid4"> 
+            
+       <apex:pageBlock id="renderPageBlock2" >
+            <apex:pageMessages id="message"/>
+        <apex:pageBlockSection title="{!If ((random != null),random,If(selectedB='Pick the External Pokemon Army',null,selectedB))}">
+            
+         <apex:pageBlockTable value="{!Soldier}" var="item">
+             <apex:column value="{!item.My_Poke_Soldier_No__c}" />
+             <apex:column value="{!item.Pokemon__r.Pokemon_Image__c}"/>
+              <apex:column value="{!item.Pokemon__r.Pokemon_Type1__c}"/> 
+             <apex:column value="{!item.Pokemon__r.Pokemon_Type2__c}"/> 
+             <apex:column value="{!item.Pokemon__r.Name}"/>
+            
+             
+         </apex:pageBlockTable>     
+        </apex:pageBlockSection>
+        </apex:pageBlock>
+        </apex:panelGrid>
+             </apex:panelGrid>
+        
+                 
+                 
+                 
+        
+         <apex:pageBlock >
+             <apex:pageMessages id="message2"/>
+                       
+        <apex:pageblockSection >
+            <div align="center" draggable="false">
+                
+                <apex:commandButton value="BATTLE" rerender="message2, renderButton" action="{!gameon}" style="width:200px; height:150px; border-radius:25px;background-color:red; color:white; font-size:25pt;"/>  
+            </div>
+       </apex:pageblockSection>
+           
+    </apex:pageBlock>
+                 
+                 
+                 
+        
+        <apex:pageBlock id="renderButton" >
+            <div align="center" draggable="false">
+            <apex:commandButton value="Get Battle Statistics" action="{!showStats}"  style="background-color:green;color:yellow;" rerender="renderPageBlock3"/>
+                        
+                </div>
+           </apex:pageBlock>
+    
+        <apex:pageBlock id="renderPageBlock3">
+            <div align="center" draggable="false">
+         <apex:pageBlockSection rendered="{!displayBattle}">
+          <apex:repeat value="{!battle}" var="btls">
+              <apex:outputText value="{!btls.Battle_Name__c}"/><br/>Winning Army: 
+               <apex:outputText value="{!btls.Victorious_Army_Name__c}"/><br/>Your Survivors: 
+               <apex:outputText value="{!btls.My_Survivor_Count__c}"/><br/>Opponent Army Survivors: 
+               <apex:outputText value="{!btls.Opponent_Survivor_Count__c}"/><br/>
+           </apex:repeat>   
+                    
+          </apex:pageBlockSection>
+              <apex:pageBlockSection >
+             <apex:pageBlockTable value="{!battleRound}" var="item" rendered="{!displayStats}">
+             <apex:column value="{!item.My_Team_Name__c}"/>
+             <apex:column value="{!item.My_Soldier_No__c}"/>
+             <apex:column value="{!item.My_Pokemon_Name__c}"/>
+             <apex:column value="{!item.Opponent_Team_Name__c}"/>
+             <apex:column value="{!item.Opponent_Soldier_No__c}"/>
+             <apex:column value="{!item.Opponent_Pokemon_Name__c}"/>
+             <apex:column value="{!item.Round_Score__c}"/>
+             <apex:column value="{!item.Won_Lost__c}"/> 
+             
+         </apex:pageBlockTable>     
+            </apex:pageBlockSection>
+            </div>
+     </apex:pageBlock>
+      
+                 
+        </div>        
+     </apex:form> 
+</apex:page>

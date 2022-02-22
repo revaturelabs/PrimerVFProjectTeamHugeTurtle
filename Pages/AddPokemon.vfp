@@ -1,0 +1,63 @@
+<apex:page standardController="Pokemon__c" recordSetVar="unused" extensions="PokemonGameController2" lightningStylesheets="true" docType="html-5.0">
+    <!-- Revature Primer Project1 Author: Ashley Sarah Bee and Raymond Fajardo for Team Huge Turtle Search Bar on buttonclick-->
+	<apex:form >
+        <apex:pageMessages id="message"/>
+        <style  type="text/css">
+               .Popup{
+            background-color: white;
+            border-width: 2px;
+            border-style: solid;
+            z-index: 9999;
+            left: 50%;
+            padding:10px;
+            position: absolute;
+            width: 500px;
+            margin-left: -250px;
+            top:100px;
+        
+        .Background{
+            background-color:black;
+            opacity: 0.20;
+            filter: alpha(opacity = 20);
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 9998;
+        
+            
+           
+        </style>
+             
+             <script>
+             
+             function init()
+                 {
+                 window.open("/apex/SearchPokemon");
+                 }
+                 
+             </script>
+        
+           <body onload="init()">       
+            <apex:outputPanel id="input" >
+                
+                <apex:outputpanel styleClass="Background" layout="block" rendered="{!displayModal}">
+                    <apex:outputpanel styleClass="Popup" layout="block" rendered="{!displayModal}">
+                       
+                        GET MORE POKEMON <br/>              
+                        Pick a Pokemon to search and add to the List View. <br/>
+                        Please google up and ensure you spell pokemon's name correctly.<br/>
+                        One at a time.Submit after each.Then Close.<br/>
+        <apex:inputText value="{!pokemonName}"/>       
+        <apex:commandButton value="Submit" action="{!addPokemon2}" style="background-color:green;color:yellow" />
+         <apex:commandButton value="Close" action="{!closePokemonWindow2}" style="background-color:green;color:yellow" />               
+        </apex:outputpanel>
+        </apex:outputpanel>
+        </apex:outputPanel>
+             </body> 
+        </apex:form>
+        
+  
+        
+</apex:page>
